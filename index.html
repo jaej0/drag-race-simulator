@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag Race Simulator</title>
+    <meta
+      name="description"
+      content="A drag race simulator with garage selection, tuning, race setup, and live results."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-grid"></div>
+
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">DR</div>
+        <div>
+          <p class="eyebrow">Street Legal</p>
+          <h1>Drag Race Simulator</h1>
+        </div>
+      </div>
+
+      <nav class="topnav">
+        <a href="#garage">Garage</a>
+        <a href="#race-panel">Race Setup</a>
+        <a href="#results">Results</a>
+        <a href="#leaderboard">Leaderboard</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero panel">
+        <div class="hero-copy">
+          <p class="eyebrow accent">Quarter mile challenge</p>
+          <h2>Build speed. Tune power. Win the strip.</h2>
+          <p>
+            Choose your machine, tune the launch, dial in the weather, and run your
+            best quarter-mile pass against the pack.
+          </p>
+          <div class="hero-actions">
+            <button class="primary" id="runRaceBtn">Run Race</button>
+            <button class="ghost" id="resetBtn">Reset</button>
+          </div>
+        </div>
+
+        <div class="status-panel">
+          <div class="mini-metric">
+            <span>Track</span>
+            <strong id="trackName">Vapor Strip</strong>
+          </div>
+          <div class="mini-metric">
+            <span>Weather</span>
+            <strong id="weatherLabel">Cool & Dry</strong>
+          </div>
+          <div class="mini-metric">
+            <span>Best ET</span>
+            <strong id="bestEt">--</strong>
+          </div>
+          <div class="mini-metric highlight">
+            <span>Current Power</span>
+            <strong id="powerReadout">0 HP</strong>
+          </div>
+        </div>
+      </section>
+
+      <section id="garage" class="two-up">
+        <div class="panel">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Garage</p>
+              <h3>Vehicle selection</h3>
+            </div>
+            <span class="badge">Track ready</span>
+          </div>
+
+          <div id="carList" class="car-list" aria-label="Car selection"></div>
+        </div>
+
+        <aside class="panel">
+          <div class="section-header compact">
+            <div>
+              <p class="eyebrow">Current build</p>
+              <h3 id="selectedName">Street King</h3>
+            </div>
+            <span class="badge accent" id="selectedClass">Pro Street</span>
+          </div>
+
+          <div class="vehicle-card">
+            <div class="vehicle-glance" id="selectedVisual"></div>
+            <div class="vehicle-stats">
+              <div>
+                <span>Horsepower</span>
+                <strong id="selectedHp">0 HP</strong>
+              </div>
+              <div>
+                <span>Weight</span>
+                <strong id="selectedWeight">0 lbs</strong>
+              </div>
+              <div>
+                <span>Launch</span>
+                <strong id="selectedLaunch">0%</strong>
+              </div>
+              <div>
+                <span>Top Speed</span>
+                <strong id="selectedTopSpeed">0 mph</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="race-panel" class="panel setup-panel">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Tune setup</p>
+            <h3>Race controls</h3>
+          </div>
+          <span class="badge">Ready to launch</span>
+        </div>
+
+        <div class="controls-grid">
+          <label class="control">
+            <span>Launch control</span>
+            <input id="launchControl" type="range" min="1" max="100" value="68" />
+            <em id="launchValue">68%</em>
+          </label>
+
+          <label class="control">
+            <span>Boost pressure</span>
+            <input id="boostLevel" type="range" min="1" max="100" value="72" />
+            <em id="boostValue">72%</em>
+          </label>
+
+          <label class="control">
+            <span>Track prep</span>
+            <select id="trackPrep">
+              <option value="1.0">Standard</option>
+              <option value="1.08">Sticky</option>
+              <option value="0.94">Average</option>
+              <option value="0.88">Cold</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>Weather</span>
+            <select id="weatherSelect">
+              <option value="0.97">Cool & Dry</option>
+              <option value="1.0">Normal</option>
+              <option value="0.92">Hot</option>
+              <option value="0.9">Rain</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>Race mode</span>
+            <select id="raceMode">
+              <option value="1">Single pass</option>
+              <option value="3">Best of 3</option>
+              <option value="5">Best of 5</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>Opponent pool</span>
+            <select id="opponentPool">
+              <option value="2">Local rivals</option>
+              <option value="3">Regional field</option>
+              <option value="5">National field</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section id="results" class="results-grid">
+        <div class="panel big-panel">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Race board</p>
+              <h3>Run results</h3>
+            </div>
+            <span class="badge" id="resultBadge">Awaiting launch</span>
+          </div>
+
+          <div class="race-strip">
+            <div class="lane lane-user">
+              <span class="lane-label">Your car</span>
+              <div class="lane-visual">
+                <div class="car-body user-car" id="userCarVisual"></div>
+              </div>
+              <div class="lane-metrics">
+                <strong id="userEt">--</strong>
+                <small id="userSpeed">-- mph</small>
+              </div>
+            </div>
+
+            <div class="lane lane-rival">
+              <span class="lane-label">Rival</span>
+              <div class="lane-visual">
+                <div class="car-body rival-car"></div>
+              </div>
+              <div class="lane-metrics">
+                <strong id="rivalEt">--</strong>
+                <small id="rivalSpeed">-- mph</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-summary" id="summaryBlock">
+            <div>
+              <span>Reaction time</span>
+              <strong id="reactionMetric">--</strong>
+            </div>
+            <div>
+              <span>60 ft</span>
+              <strong id="sixtyMetric">--</strong>
+            </div>
+            <div>
+              <span>MPH</span>
+              <strong id="speedMetric">--</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel scoreboard-panel" id="leaderboard">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Standings</p>
+              <h3>Leaderboard</h3>
+            </div>
+            <span class="badge">Weekly</span>
+          </div>
+
+          <ol id="leaderboardList" class="leaderboard-list"></ol>
+        </div>
+      </section>
+
+      <section class="panel event-log-panel">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Track log</p>
+            <h3>Race feed</h3>
+          </div>
+          <span class="badge">Live</span>
+        </div>
+
+        <ul id="raceLog" class="race-log"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
